@@ -1,0 +1,290 @@
+/* PROJECT: G06 Creative Digital Media Agency 
+   FILE: styles.css
+   AUTHORS: Jack Stremski & Liam White
+   DESCRIPTION: Main external stylesheet for the recruitment website.
+*/
+
+/*Root Variables for Brand Consistency*/
+:root {
+    --primary-blue: #1a73e8;
+    --dark-grey: #202124;
+    --light-grey: #f8f9fa;
+    --text-color: #3c4043;
+    --white: #ffffff;
+    --hover-blue: #e8f0fe;
+}
+
+/*  Global Elements  */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+h2 {
+    color: #1a73e8;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 5px;
+  }
+
+/*  Accessibility: Focus States */
+a:focus, 
+input:focus, 
+select:focus, 
+textarea:focus {
+    outline: 3px solid var(--primary-blue);
+    outline-offset: 2px;
+}
+
+/*  Common Navigation Menu  */
+nav ul {
+    list-style-type: none;
+    background-color: var(--dark-grey);
+    padding: 15px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: var(--primary-blue);
+}
+
+/*  Index Page: Background Graphic  */
+#index-body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(255, 255, 255, 0.6)), 
+                      url('agency-hero.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/*  Jobs Page: Specific Requirements  */
+aside {
+    float: right;
+    width: 25%;
+    margin-left: 15px;
+    padding: 20px;
+    border: 2px solid var(--primary-blue);
+    background-color: var(--hover-blue);
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+/* Clearfix for Main content when Aside is floated */
+main::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/*  Apply Page: Form Grid Layout  */
+form {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: var(--light-grey);
+    border-radius: 10px;
+}
+
+fieldset {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 15px;
+    border: 1px solid #dadce0;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: var(--white);
+}
+
+legend {
+    font-weight: bold;
+    color: var(--primary-blue);
+    padding: 0 10px;
+    font-size: 1.1rem;
+}
+
+label {
+    align-self: center;
+    font-weight: 600;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    grid-column: span 2;
+    padding: 15px;
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #1557b0;
+}
+
+/*  About Page: Specific Requirements  */
+
+/* Styled Student IDs */
+/* Styling for Student ids to meet rubric requirements */
+.id-style {
+    font-family: 'Courier New', Courier, monospace; /* Distinct font */
+    font-weight: bold;
+    color: #d93025; /* A distinct color like Google-red or dark red */
+    letter-spacing: 1px;
+}
+
+/* Bordered Figure */
+.team-border {
+    border: 10px solid var(--light-grey);
+    padding: 10px;
+    display: inline-block;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Styled Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    padding: 12px;
+    text-align: left;
+}
+
+td {
+    border-bottom: 1px solid #eeeeee;
+    padding: 12px;
+}
+
+/* Hover Effect for Table Rows */
+tr:hover {
+    background-color: var(--hover-blue);
+    transition: background-color 0.2s ease;
+}
+
+/*  Responsive Design (Media Queries)  */
+@media (max-width: 768px) { 
+    /* a check on the width of the device to determine
+    what style it should use.  */
+    /* Stack form into a single column */
+    form, 
+    fieldset {
+        grid-template-columns: 1fr;
+    }
+
+    fieldset {
+        grid-column: span 1;
+    }
+
+    /* Stack Aside on mobile */
+    aside {
+        width: 100%;
+        float: none;
+        margin-left: 0;
+        margin-bottom: 20px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+}
+
+/*  Footer  */
+footer {
+    background-color: var(--dark-grey);
+    color: var(--white);
+    text-align: center;
+    padding: 30px 10px;
+    margin-top: 50px;
+}
+
+footer a {
+    color: var(--primary-blue);
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Index Page Extras */
+
+.hero-text {
+    color: var(--white);
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.hero-text p {
+    max-width: 800px;
+    margin: 0 auto 20px;
+}
+
+.hero-slogan {
+    font-weight: bold;
+}
+
+.page-container {
+    background-color: var(--white);
+    margin: 30px auto;
+    padding: 30px;
+    max-width: 1100px;
+    border-radius: 12px;
+}
+
+.company-logo {
+    max-width: 140px;
+}
+
+.hero-image {
+    width: 100%;
+    max-width: 700px;
+    display: block;
+    margin: 20px auto;
+}
