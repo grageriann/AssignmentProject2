@@ -3,28 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Recruitment website for G06 Creative Digital Media Agency">
-    <meta name="keywords" content="jobs, recruitment, web developer, designer, digital media">
-    <meta name="author" content="Jack Stremski & Liam White">
-    <title><?php echo isset($pageTitle) ? $pageTitle : "G06 Creative Digital Media Agency"; ?></title>
-    <link rel="stylesheet" href="styles/styles.css">
+    <title><?php echo isset($pageTitle) ? $pageTitle : "G06 Digital Media Agency"; ?></title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body id="<?php echo isset($bodyId) ? $bodyId : ""; ?>">
 
     <header>
-        <div class="hero-text">
-            <img src="images/LBlogo.png" alt="G06 Creative Logo" class="company-logo">
-            <h1>G06 Creative</h1>
-            <p class="hero-slogan">Innovate. Design. Deliver.</p>
-        </div>
+        <nav>
+            <ul>
+                <li><a href="index.php">Home</a></li>
+                <li><a href="jobs.php">Jobs</a></li>
+                <li><a href="apply.php">Apply</a></li>
+                <li><a href="about.php">About</a></li>
+                <li><a href="manage.php">Manage</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <nav>
-        <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href="jobs.php">Jobs</a></li>
-            <li><a href="apply.php">Apply</a></li>
-            <li><a href="about.php">About</a></li>
-            <li><a href="manage.php">Manager Portal</a></li>
-        </ul>
-    </nav>
+    <?php if (isset($bodyId) && $bodyId === "index-body"): ?>
+    <section class="hero-text">
+        <img src="LBlogo.png" alt="G06 Creative Digital Media Agency logo" class="company-logo" style="max-width: 140px;">
+        <h1 class="welcome-highlight">G06 Creative Digital Media Agency</h1>
+        <p class="hero-slogan">Creative ideas. Digital impact. Better user experiences.</p>
+        <p>
+            G06 Creative Digital Media Agency is a client-focused digital studio specialising
+            in web design, branding, and digital content production. We create accessible,
+            engaging, and visually strong websites for businesses that want to improve their
+            online presence and communicate effectively with their audiences.
+        </p>
+    </section>
+    <?php endif; ?>
