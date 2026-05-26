@@ -1,11 +1,33 @@
 <?php
 $pageTitle = "About Us | G06 Creative Agency";
 require_once("settings.php");
-include_once("header.inc");
 
-// Fetch team profile variables dynamically from the database
+// 1. SELF-HEALING: Auto-create the 'about' table if it doesn't exist yet
+$tableCheckQuery = "CREATE TABLE IF NOT EXISTS about (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  student_id VARCHAR(15) NOT NULL,
+  snack VARCHAR(100) NOT NULL,
+  part1_contrib TEXT NOT NULL,
+  part2_contrib TEXT NOT NULL
+)";
+mysqli_query($conn, $tableCheckQuery);
+
+// 2. SELF-HEALING: Insert default team records if the table is completely empty
+$checkEmpty = mysqli_query($conn, "SELECT COUNT(*) AS total FROM about");
+$rowEmpty = mysqli_fetch_assoc($checkEmpty);
+if ($rowEmpty['total'] == 0) {
+    $insertQuery = "INSERT INTO about (name, student_id, snack, part1_contrib, part2_contrib) VALUES
+    ('Jack', '106501279', 'Cold Brew Coffee', 'Developed static HTML structures and configured CSS variables formatting.', 'Constructed application endpoint processing scripts and SQL schemas.'),
+    ('Liam', '106512828', 'Raspberry White Chocolates', 'Designed responsive grid patterns and user interaction pathways.', 'Created administrative control panels and user management gates.')";
+    mysqli_query($conn, $insertQuery);
+}
+
+// 3. Now run the clean fetch query safely
 $query = "SELECT * FROM about ORDER BY id ASC";
 $result = mysqli_query($conn, $query);
+
+include_once("header.inc");
 ?>
 
 <main class="page-container">
