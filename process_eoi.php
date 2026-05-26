@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 
 require_once "settings.php";
 
-// Auto-Creation Check to ensure the EOI table exists
+// Auto-create EOI table if missing on clean environment
 $tableCheckQuery = "CREATE TABLE IF NOT EXISTS eoi (
   EOInumber INT AUTO_INCREMENT PRIMARY KEY,
   JobReferenceNumber VARCHAR(5) NOT NULL,
@@ -34,7 +34,6 @@ function clean_input($data) {
     return $data;
 }
 
-// Map variables cleanly from client payload
 $job_reference  = clean_input($_POST["job_ref"] ?? "");
 $first_name     = clean_input($_POST["first_name"] ?? "");
 $last_name      = clean_input($_POST["last_name"] ?? "");
@@ -56,7 +55,7 @@ if (isset($_POST["skills"]) && is_array($_POST["skills"])) {
 
 $errors = [];
 
-// Enforce strict backend validation checks
+// Validation Logic Rules
 if (!preg_match("/^[A-Za-z0-9]{5}$/", $job_reference)) {
     $errors[] = "Job reference identifier must span exactly 5 alphanumeric characters.";
 }
@@ -69,7 +68,6 @@ if (!preg_match("/^[A-Za-z]{1,20}$/", $last_name)) {
 if (!preg_match("/^\d{2}\/\d{2}\/\d{4}$/", $dob)) {
     $errors[] = "Date of Birth format must match the DD/MM/YYYY structure perfectly.";
 } else {
-    // Check age logic
     $parts = explode('/', $dob);
     $day = (int)$parts[0];
     $month = (int)$parts[1];
@@ -86,19 +84,18 @@ if (!preg_match("/^\d{2}\/\d{2}\/\d{4}$/", $dob)) {
     }
 }
 if (empty($gender)) {
-    $errors[] = "Gender identification select option is required.";
+    $errors[] = "Gender identification field is required.";
 }
 if (strlen($street_address) < 1 || strlen($street_address) > 40) {
-    $errors[] = "Street location data must span between 1 and 40 characters.";
+    $errors[] = "Street location must be between 1 and 40 characters.";
 }
 if (strlen($suburb) < 1 || strlen($suburb) > 40) {
-    $errors[] = "Suburb data must span between 1 and 40 characters.";
+    $errors[] = "Suburb must be between 1 and 40 characters.";
 }
 
-// Postcode vs State Cross Validation Matrix
 $valid_states = ['VIC', 'NSW', 'QLD', 'NT', 'WA', 'SA', 'TAS', 'ACT'];
 if (!in_array($state, $valid_states)) {
-    $errors[] = "Please specify a valid Australian state territory selection.";
+    $errors[] = "Please specify a valid Australian state territory.";
 }
 if (!preg_match("/^\d{4}$/", $postcode)) {
     $errors[] = "Postcode configurations must consist of exactly 4 numeric characters.";
@@ -115,10 +112,10 @@ if (!preg_match("/^\d{4}$/", $postcode)) {
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $errors[] = "The email layout provided does not conform to standard specifications.";
+    $errors[] = "The email layout provided does not conform to specifications.";
 }
 if (!preg_match("/^[0-9 ]{8,12}$/", $phone)) {
-    $errors[] = "Phone values must contain between 8 and 12 digits (spaces allowed).";
+    $errors[] = "Phone values must contain between 8 and 12 digits.";
 }
 
 $success = false;
@@ -143,31 +140,27 @@ $pageTitle = "Application Status | G06 Agency";
 include_once("header.inc");
 ?>
 
-<main class="page-container" style="padding: 40px 20px;">
-    <div style="max-width:600px; margin:0 auto; padding:30px; border:1px solid #ccc; border-radius:8px; text-align:center; background:#fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+<main class="page-container">
+    <div style="max-width:600px; margin:40px auto; padding:30px; border:1px solid #ccc; border-radius:8px; text-align:center; background:var(--white);">
         <?php if ($success): ?>
-            <h1 style="color:#2e7d32; font-size: 1.8rem; margin-bottom: 15px;">Application Received Successfully</h1>
+            <h1 style="color: #1a73e8; margin-bottom: 15px;">Application Received Successfully</h1>
             <p>Thank you for applying to join the team at G06 Creative Digital Media Agency.</p>
-            <div style="background:#e8f0fe; padding:15px; margin:20px 0; border-radius:6px; font-size:1.3rem; border: 1px solid #b3d7ff;">
-                Your Tracking EOI Number is: <strong style="color: #1a73e8;">#<?php echo htmlspecialchars($eoi_number); ?></strong>
+            <div style="background: var(--hover-blue); padding:15px; margin:20px 0; border-radius:6px; font-size:1.3rem; border: 1px solid #b3d7ff; font-weight: bold; color: var(--primary-blue);">
+                Your Tracking EOI Number is: #<?php echo htmlspecialchars($eoi_number); ?>
             </div>
-            <p style="color: #5f6368; font-size: 0.9rem;">Please save this identification reference safely for your evaluation updates.</p>
-            <p style="margin-top:25px;"><a href="index.php" style="display:inline-block; padding:12px 24px; background:#1a73e8; color:white; text-decoration:none; border-radius:4px; font-weight: bold;">Return to Home Screen</a></p>
+            <p>Please save this identification reference safely for your evaluation updates.</p>
+            <p style="margin-top:25px;"><a href="index.php" style="display:inline-block; padding:10px 20px; background:var(--primary-blue); color:var(--white); text-decoration:none; border-radius:4px; font-weight: bold;">Return to Home Screen</a></p>
         <?php else: ?>
-            <h1 style="color:#d32f2f; font-size: 1.8rem; margin-bottom: 15px;">Application Submission Error</h1>
-            <p>We found the following errors in your application form profile details:</p>
-            <ul style="text-align: left; color: #d32f2f; margin: 20px 0; padding-left: 20px;">
+            <h1 style="color:#d32f2f; margin-bottom: 15px;">Application Submission Error</h1>
+            <p>We found the following configuration errors in your form submission:</p>
+            <ul style="text-align: left; color: #d32f2f; margin: 20px 0; padding-left: 20px; line-height: 1.8;">
                 <?php 
-                if (!empty($errors)) {
-                    foreach ($errors as $error) {
-                        echo "<li style='margin-bottom:8px;'>" . htmlspecialchars($error) . "</li>";
-                    }
-                } else {
-                    echo "<li>Database operation failure. Please contact system technical staff.</li>";
+                foreach ($errors as $error) {
+                    echo "<li>" . htmlspecialchars($error) . "</li>";
                 }
                 ?>
             </ul>
-            <p style="margin-top:25px;"><a href="apply.php" style="display:inline-block; padding:12px 24px; background:#3c4043; color:white; text-decoration:none; border-radius:4px; font-weight: bold;">Return to Application Form</a></p>
+            <p style="margin-top:25px;"><a href="apply.php" style="display:inline-block; padding:10px 20px; background:var(--dark-grey); color:var(--white); text-decoration:none; border-radius:4px; font-weight: bold;">Return to Application Form</a></p>
         <?php endif; ?>
     </div>
 </main>
