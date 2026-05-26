@@ -1,8 +1,10 @@
 <?php
-$pageTitle = "Job Application Form";
+$pageTitle = "Apply | G06 Agency";
+$bodyId = "apply-body";
+
 include_once("header.inc");
 
-// Check if a job reference code was passed from the jobs page
+// Check if a job reference code was passed
 $passed_ref = isset($_GET['job_ref']) ? trim($_GET['job_ref']) : "";
 ?>
 

@@ -1,85 +1,121 @@
 <?php
-$pageTitle = "About Us | G06 Creative Agency";
-require_once("settings.php");
-
-// Self-healing check: Ensure table exists and has your team rows
-$tableCheckQuery = "CREATE TABLE IF NOT EXISTS about (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(50) NOT NULL,
-  student_id VARCHAR(15) NOT NULL,
-  snack VARCHAR(100) NOT NULL,
-  part1_contrib TEXT NOT NULL,
-  part2_contrib TEXT NOT NULL
-)";
-mysqli_query($conn, $tableCheckQuery);
-
-$checkEmpty = mysqli_query($conn, "SELECT COUNT(*) AS total FROM about");
-$rowEmpty = mysqli_fetch_assoc($checkEmpty);
-if ($rowEmpty['total'] == 0) {
-    $insertQuery = "INSERT INTO about (name, student_id, snack, part1_contrib, part2_contrib) VALUES
-    ('Jack', '106501279', 'Cold Brew Coffee', 'Developed static HTML structures and configured CSS variables formatting.', 'Constructed application endpoint processing scripts and SQL schemas.'),
-    ('Liam', '106512828', 'Raspberry White Chocolates', 'Designed responsive grid patterns and user interaction pathways.', 'Created administrative control panels and user management gates.')";
-    mysqli_query($conn, $insertQuery);
-}
-
-$query = "SELECT * FROM about ORDER BY id ASC";
-$result = mysqli_query($conn, $query);
+$pageTitle = "About | G06 Agency";
+$bodyId = "about-body";
 
 include_once("header.inc");
+require_once("settings.php");
 ?>
 
+<style>
+    main h2 {
+        color: #1a73e8;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 5px;
+        margin-top: 25px;
+    }
+    .about-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 15px 0 30px 0;
+    }
+    .about-table caption {
+        font-weight: bold;
+        text-align: left;
+        margin-bottom: 8px;
+        color: var(--text-color);
+    }
+    .about-table th {
+        background-color: var(--light-grey);
+        color: var(--text-color);
+        font-weight: bold;
+        text-align: left;
+        padding: 12px;
+        border: 1px solid #ddd;
+    }
+    .about-table td {
+        padding: 12px;
+        border: 1px solid #ddd;
+        color: var(--text-color);
+    }
+    .id-style {
+        font-family: monospace;
+        font-size: 1.05rem;
+    }
+    .team-border img {
+        border: 1px solid #ccc;
+        padding: 4px;
+        background: #fff;
+    }
+</style>
+
 <main class="page-container">
-  <section>
-    <h2>Acknowledgement of Country</h2>
-    <p>
-      G06 Creative Digital Media Agency acknowledges the Traditional Custodians of the lands where we live and work. 
-      We are committed to fostering an inclusive creative industry and strongly encourage applications from Aboriginal and Torres Strait Islander peoples.
-    </p>
-  </section>
+    <section>
+        <h2 style="font-size: 1.5rem">Acknowledgement of Country</h2>
+        <p>
+            G06 Creative Digital Media Agency acknowledges the Traditional
+            Custodians of the lands where we live and work. We are committed to
+            fostering an inclusive creative industry and strongly encourage
+            applications from Aboriginal and Torres Strait Islander peoples.
+        </p>
+    </section>
 
-  <section>
-    <h2>Team Photo & Motto</h2>
-    <figure class="team-border" style="text-align: center; margin: 20px 0;">
-      <img src="images/group-photo.jpg" alt="G06 Creative Team" style="max-width:300px; border-radius:8px;">
-      <figcaption>G06 Partners: Liam and Jack.</figcaption>
-    </figure>
-    <p style="font-style: italic; text-align: center; margin: 15px 0; color: var(--text-color);">
-      "Chi va piano, va sano e va lontano" (He who goes softly goes safely and far)
-    </p>
-  </section>
+    <section>
+        <h2>Agency Information</h2>
+        <ul>
+            <li><strong>Class Group:</strong> G06 Digital Media Studio</li>
+            <li><strong>Course Code:</strong> COS10026 Web Development</li>
+        </ul>
+    </section>
 
-  <section>
-    <h2>Agency Facts & Contributions</h2>
-    <table>
-      <caption>Team Credentials and Project Assignments</caption>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Student ID</th>
-          <th>Design Snack</th>
-          <th>Part 1 Tasks</th>
-          <th>Part 2 Tasks</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php if ($result && mysqli_num_rows($result) > 0): ?>
-          <?php while ($row = mysqli_fetch_assoc($result)): ?>
-            <tr>
-              <td><strong><?php echo htmlspecialchars($row['name']); ?></strong></td>
-              <td class="id-style"><?php echo htmlspecialchars($row['student_id']); ?></td>
-              <td style="font-style: italic;"><?php echo htmlspecialchars($row['snack']); ?></td>
-              <td><?php echo htmlspecialchars($row['part1_contrib']); ?></td>
-              <td><?php echo htmlspecialchars($row['part2_contrib']); ?></td>
-            </tr>
-          <?php endwhile; ?>
-        <?php else: ?>
-          <tr>
-            <td colspan="5" style="text-align: center;">No member contribution data available.</td>
-          </tr>
-        <?php endif; ?>
-      </tbody>
-    </table>
-  </section>
+    <section>
+        <h2>Our Timetable</h2>
+        <p>We work collaboratively during our allocated on-campus laboratory sessions:</p>
+        <dl>
+            <dt><strong>Team Motto:</strong></dt>
+            <dd>
+                "Chi va piano, va sano e va lontano" (He who goes softly goes safely
+                and far)
+            </dd>
+        </dl>
+    </section>
+
+    <section>
+        <h2>Team Photo</h2>
+        <figure class="team-border">
+            <img src="group-phot    o.jpg" alt="G06 Creative Team" width="300">
+            <figcaption style="font-style: italic; margin-top: 5px; color: #555;">G06 Partners: Liam and Jack.</figcaption>
+        </figure>
+    </section>
+
+    <section>
+        <h2>Agency Facts</h2>
+        <table class="about-table">
+            <caption>
+                Team Credentials
+            </caption>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>ID</th>
+                    <th>Design Snack</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Jack</td>
+                    <td class="id-style">106501279</td>
+                    <td>Cold Brew Coffee</td>
+                </tr>
+                <tr>
+                    <td>Liam</td>
+                    <td class="id-style">106512828</td>
+                    <td>Raspberry White Chocolates</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
 </main>
 
-<?php include_once("footer.inc"); ?>
+<?php 
+include_once("footer.inc"); 
+?>

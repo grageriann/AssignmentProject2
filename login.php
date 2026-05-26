@@ -11,24 +11,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($username) || empty($password)) {
         $error_msg = "Please enter both username and password.";
     } else {
-        $query = "SELECT * FROM users WHERE username = ? AND password = ?";
+        $query = "SELECT * FROM users WHERE username = ?";
         $stmt = mysqli_prepare($conn, $query);
-        mysqli_stmt_bind_param($stmt, "ss", $username, $password);
+
+        mysqli_stmt_bind_param($stmt, "s", $username);
         mysqli_stmt_execute($stmt);
+
         $result = mysqli_stmt_get_result($stmt);
 
         if ($result && mysqli_num_rows($result) === 1) {
-            $user = mysqli_fetch_assoc($result);
-            $_SESSION["authenticated"] = true;
-            $_SESSION["manager_user"] = $user["username"];
-            header("Location: manage.php");
-            exit();
-        } else {
-            $error_msg = "Invalid username or password.";
-        }
 
-        mysqli_stmt_close($stmt);
-    }
+            $user = mysqli_fetch_assoc($result);
+
+            if (password_verify($password, $user["password"])) {
+
+                $_SESSION["authenticated"] = true;
+                $_SESSION["manager_user"] = $user["username"];
+
+                header("Location: manage.php");
+                exit();
+
+            } else {
+                $error_msg = "Invalid username or password.";
+            }
+
 }
 ?>
 <!DOCTYPE html>

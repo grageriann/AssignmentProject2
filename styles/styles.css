@@ -288,3 +288,37 @@ footer a:hover {
     display: block;
     margin: 20px auto;
 }
+
+/* APPLY PAGE BACKGROUND */
+
+#apply-body {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0, 0, 0, 0.82),
+            rgba(26, 115, 232, 0.55)
+        ),
+        url("../images/agency-hero.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+
+    min-height: 100vh;
+}
+
+#about-body {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(32, 33, 36, 0.85),
+            rgba(26, 115, 232, 0.45)
+        ),
+        url("../images/agency-hero.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+
+    min-height: 100vh;
+}
