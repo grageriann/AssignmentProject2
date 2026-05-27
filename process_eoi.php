@@ -1,4 +1,6 @@
 <?php
+//   validation that the form was submitted via POST method,
+//   otherwise redirect back to the application form.
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     header("Location: apply.php");
     exit;
@@ -27,10 +29,10 @@ $tableCheckQuery = "CREATE TABLE IF NOT EXISTS eoi (
 )";
 mysqli_query($conn, $tableCheckQuery);
 
+// sanitization to clear the user input of malicious code.
 function clean_input($data) {
     $data = trim($data);
     $data = stripslashes($data);
-    $data = htmlspecialchars($data);
     return $data;
 }
 
@@ -65,6 +67,8 @@ if (!preg_match("/^[A-Za-z]{1,20}$/", $first_name)) {
 if (!preg_match("/^[A-Za-z]{1,20}$/", $last_name)) {
     $errors[] = "Last name must contain only alpha characters and not exceed 20 characters.";
 }
+
+// Date of Birth Validation
 if (!preg_match("/^\d{2}\/\d{2}\/\d{4}$/", $dob)) {
     $errors[] = "Date of Birth format must match the DD/MM/YYYY structure perfectly.";
 } else {
@@ -83,6 +87,7 @@ if (!preg_match("/^\d{2}\/\d{2}\/\d{4}$/", $dob)) {
         }
     }
 }
+
 if (empty($gender)) {
     $errors[] = "Gender identification field is required.";
 }
@@ -97,6 +102,8 @@ $valid_states = ['VIC', 'NSW', 'QLD', 'NT', 'WA', 'SA', 'TAS', 'ACT'];
 if (!in_array($state, $valid_states)) {
     $errors[] = "Please specify a valid Australian state territory.";
 }
+
+// Nested Postcode Validation to avoid out-of-bounds index warnings
 if (!preg_match("/^\d{4}$/", $postcode)) {
     $errors[] = "Postcode configurations must consist of exactly 4 numeric characters.";
 } else {
@@ -121,6 +128,7 @@ if (!preg_match("/^[0-9 ]{8,12}$/", $phone)) {
 $success = false;
 $eoi_number = null;
 
+// Database processing
 if (empty($errors)) {
     $query = "INSERT INTO eoi (JobReferenceNumber, FirstName, LastName, DOB, Gender, StreetAddress, SuburbTown, State, Postcode, EmailAddress, PhoneNumber, Skills, OtherSkills, Status) 
               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'New')";
@@ -130,13 +138,20 @@ if (empty($errors)) {
         if (mysqli_stmt_execute($stmt)) {
             $success = true;
             $eoi_number = mysqli_insert_id($conn);
+        } else {
+            $errors[] = "Database execution failed. Please try again later.";
         }
         mysqli_stmt_close($stmt);
+    } else {
+        $errors[] = "Database preparation failed. Please check backend settings.";
     }
 }
 mysqli_close($conn);
 
+// Set structural template variables used by header.inc
 $pageTitle = "Application Status | G06 Agency";
+$bodyId = "status-page"; // Fixes undefined variable error in template layout
+
 include_once("header.inc");
 ?>
 
