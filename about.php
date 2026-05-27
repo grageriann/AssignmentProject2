@@ -6,48 +6,6 @@ include_once("header.inc");
 require_once("settings.php");
 ?>
 
-<style>
-    main h2 {
-        color: #1a73e8;
-        border-bottom: 2px solid #eee;
-        padding-bottom: 5px;
-        margin-top: 25px;
-    }
-    .about-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 15px 0 30px 0;
-    }
-    .about-table caption {
-        font-weight: bold;
-        text-align: left;
-        margin-bottom: 8px;
-        color: var(--text-color);
-    }
-    .about-table th {
-        background-color: var(--light-grey);
-        color: var(--text-color);
-        font-weight: bold;
-        text-align: left;
-        padding: 12px;
-        border: 1px solid #ddd;
-    }
-    .about-table td {
-        padding: 12px;
-        border: 1px solid #ddd;
-        color: var(--text-color);
-    }
-    .id-style {
-        font-family: monospace;
-        font-size: 1.05rem;
-    }
-    .team-border img {
-        border: 1px solid #ccc;
-        padding: 4px;
-        background: #fff;
-    }
-</style>
-
 <main class="page-container">
     <section>
         <h2 style="font-size: 1.5rem">Acknowledgement of Country</h2>
