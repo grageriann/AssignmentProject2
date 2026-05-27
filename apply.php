@@ -12,7 +12,7 @@ $passed_ref = isset($_GET['job_ref']) ? trim($_GET['job_ref']) : "";
     <h2 style="text-align: center;">Expression of Interest (EOI)</h2>
     <p style="text-align: center; max-width: 600px; margin: 0 auto 20px;">Complete the form below to submit your job application. All fields are required unless stated otherwise.</p>
     
-    <form action="process_eoi.php" method="post" novalidate="novalidate">
+    <form action="process_eoi.php" method="post" novalidate>
         
         <fieldset>
             <legend>Job Identification</legend>
