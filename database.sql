@@ -57,9 +57,9 @@
   );
 
   INSERT INTO about (name, student_id, snack, part1_contrib, part2_contrib)
-  SELECT 'Jack', '106501279', 'Cold Brew Coffee', 'Developed static HTML structures and configured CSS variables formatting.', 'Constructed application endpoint processing scripts and SQL schemas.'
+  SELECT 'Jack', '106501279', 'Cold Brew Coffee', 'Worked on creating static website pages in accordance with the design specifications.', 'Turned the static pages into dynamic pages, using .php and .inc files.'
   WHERE NOT EXISTS (SELECT 1 FROM about WHERE student_id = '106501279');
 
   INSERT INTO about (name, student_id, snack, part1_contrib, part2_contrib)
-  SELECT 'Liam', '106512828', 'Raspberry White Chocolates', 'Designed responsive grid patterns and user interaction pathways.', 'Created administrative control panels and user management gates.'
+  SELECT 'Liam', '106512828', 'Raspberry White Chocolates', 'Worked on creating static website pages in accordance with the design specifications.', 'Turned the static pages into dynamic pages, using .php and .inc files.'
   WHERE NOT EXISTS (SELECT 1 FROM about WHERE student_id = '106512828');
