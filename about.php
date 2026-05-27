@@ -6,6 +6,7 @@ include_once("header.inc");
 require_once("settings.php");
 ?>
 
+
 <main class="page-container">
     <section>
         <h2 style="font-size: 1.5rem">Acknowledgement of Country</h2>
