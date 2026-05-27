@@ -13,8 +13,6 @@ $passed_ref = isset($_GET['job_ref']) ? trim($_GET['job_ref']) : "";
     <p style="text-align: center; max-width: 600px; margin: 0 auto 20px;">Complete the form below to submit your job application. All fields are required unless stated otherwise.</p>
     
     <form action="process_eoi.php" method="POST" novalidate>
-        <button type="submit">Submit Application</button>
-    </form>
         
         <fieldset>
             <legend>Job Identification</legend>
@@ -92,8 +90,11 @@ $passed_ref = isset($_GET['job_ref']) ? trim($_GET['job_ref']) : "";
             <label for="other_skills">Other Skills (Optional)</label>
             <textarea id="other_skills" name="other_skills" rows="5" placeholder="Outline additional technical tools or background information here..."></textarea>
         </fieldset>
-
-        <input type="submit" value="Submit Expression of Interest">
+        
+        <div style="margin-top: 20px;">
+            <button type="submit" style="padding: 10px 20px; background: var(--primary-blue, #1a73e8); color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">Submit Application</button>
+        </div>
+        
     </form>
 </main>
 
