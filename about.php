@@ -82,7 +82,7 @@ require_once("settings.php");
     <section>
         <h2>Team Photo</h2>
         <figure class="team-border">
-            <img src="group-phot    o.jpg" alt="G06 Creative Team" width="300">
+            <img src="images/group-photo.jpg" alt="G06 Creative Team" width="300">
             <figcaption style="font-style: italic; margin-top: 5px; color: #555;">G06 Partners: Liam and Jack.</figcaption>
         </figure>
     </section>

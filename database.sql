@@ -1,7 +1,6 @@
 CREATE DATABASE IF NOT EXISTS db;
 USE db;
 
--- 1. EXPRESSION OF INTEREST TABLE
 CREATE TABLE IF NOT EXISTS eoi (
   EOInumber INT AUTO_INCREMENT PRIMARY KEY,
   JobReferenceNumber VARCHAR(5) NOT NULL,
@@ -21,7 +20,6 @@ CREATE TABLE IF NOT EXISTS eoi (
   DateSubmitted TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 2. JOBS TABLE
 CREATE TABLE IF NOT EXISTS jobs (
   id INT AUTO_INCREMENT PRIMARY KEY,
   reference_number CHAR(5) NOT NULL,
@@ -31,7 +29,6 @@ CREATE TABLE IF NOT EXISTS jobs (
   reports_to VARCHAR(100) NOT NULL
 );
 
--- Populate jobs if empty
 INSERT INTO jobs (reference_number, title, description, salary, reports_to)
 SELECT 'FE123', 'Front-End Developer', 'We are looking for a Front-End Developer to build responsive and accessible client websites. This role focuses on translating visual concepts into functional webpages using HTML5 and CSS3.', '$68,000 – $80,000 per year', 'Lead Developer'
 WHERE NOT EXISTS (SELECT 1 FROM jobs WHERE reference_number = 'FE123');
@@ -40,7 +37,6 @@ INSERT INTO jobs (reference_number, title, description, salary, reports_to)
 SELECT 'WD245', 'Web Designer', 'We are seeking a creative Web Designer to produce visually engaging and client-focused website designs. This role involves layout planning, visual styling, and contributing to brand identity across digital platforms.', '$65,000 – $75,000 per year', 'Creative Director'
 WHERE NOT EXISTS (SELECT 1 FROM jobs WHERE reference_number = 'WD245');
 
--- 3. ADMINISTRATIVE USERS TABLE
 CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(50) NOT NULL UNIQUE,
@@ -52,7 +48,6 @@ INSERT INTO users (username, password)
 SELECT 'admin', 'admin'
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = 'admin');
 
--- 4. TEAM MEMBERS CONTRIBUTIONS TABLE
 CREATE TABLE IF NOT EXISTS about (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
@@ -62,7 +57,6 @@ CREATE TABLE IF NOT EXISTS about (
   part2_contrib TEXT NOT NULL
 );
 
--- Insert roster records
 INSERT INTO about (name, student_id, snack, part1_contrib, part2_contrib)
 SELECT 'Jack', '106501279', 'Cold Brew Coffee', 'Developed static HTML structures and configured CSS variables formatting.', 'Constructed application endpoint processing scripts and SQL schemas.'
 WHERE NOT EXISTS (SELECT 1 FROM about WHERE student_id = '106501279');
